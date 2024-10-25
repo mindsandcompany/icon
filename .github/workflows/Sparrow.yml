@@ -1,4 +1,4 @@
-name: Sparrow Scan
+name: Sparrow License Compliance Check
 
 on:
   push:
@@ -28,13 +28,16 @@ jobs:
           curl -L -o sparrow.tar.gz https://github.com/EarthCubeGeochron/Sparrow/releases/download/v3.1.0/sparrow-Linux-x86_64.tar.gz
           tar -xzf sparrow.tar.gz -C $HOME/sparrow --strip-components=1
 
-      - name: Verify Installation
-        run: |
-          # List directory contents to verify structure
-          ls -R $HOME/sparrow
-
       - name: Add Sparrow to PATH
         run: echo "$HOME/sparrow" >> $GITHUB_PATH
 
       - name: Run Sparrow Scan
-        run: sparrow scan -p .
+        run: |
+          mkdir -p $HOME/sparrow/results
+          sparrow scan -p . -o $HOME/sparrow/results/scan-report.txt
+
+      - name: Upload Scan Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: sparrow-scan-results
+          path: $HOME/sparrow/results/scan-report.txt
