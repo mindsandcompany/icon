@@ -37,7 +37,7 @@ jobs:
           sparrow scan -p . -o $HOME/sparrow/results/scan-report.txt
 
       - name: Upload Scan Results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: sparrow-scan-results
           path: $HOME/sparrow/results/scan-report.txt
