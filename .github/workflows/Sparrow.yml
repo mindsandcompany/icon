@@ -19,7 +19,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y curl tar
 
-      - name: Download and Install Sparrow
+      - name: Download and Extract Sparrow
         run: |
           # Define install path
           mkdir -p $HOME/sparrow
@@ -28,8 +28,13 @@ jobs:
           curl -L -o sparrow.tar.gz https://github.com/EarthCubeGeochron/Sparrow/releases/download/v3.1.0/sparrow-Linux-x86_64.tar.gz
           tar -xzf sparrow.tar.gz -C $HOME/sparrow --strip-components=1
 
-          # Add Sparrow to PATH
-          echo "$HOME/sparrow/bin" >> $GITHUB_PATH
+      - name: Verify Installation
+        run: |
+          # List directory contents to verify structure
+          ls -R $HOME/sparrow
+
+      - name: Add Sparrow to PATH
+        run: echo "$HOME/sparrow" >> $GITHUB_PATH
 
       - name: Run Sparrow Scan
-        run: $HOME/sparrow/bin/sparrow scan -p .
+        run: sparrow scan -p .
