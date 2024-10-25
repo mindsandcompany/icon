@@ -20,9 +20,15 @@ jobs:
           sudo apt-get install -y curl unzip
 
       - name: Download and Install Sparrow
+        env:
+          SPARROW_INSTALL_PATH: $HOME/.local/bin
+          SPARROW_DIST_DIR: $HOME/.local/opt
         run: |
-          # Run Sparrow installation script
+          # Download and run installation script
           bash -c "$(curl -fsSL https://sparrow-data.org/get-sparrow.sh)"
+
+          # Add Sparrow to PATH
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Run Sparrow Scan
         run: sparrow scan -p .
