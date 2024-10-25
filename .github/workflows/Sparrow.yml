@@ -21,14 +21,18 @@ jobs:
 
       - name: Download and Install Sparrow
         env:
-          SPARROW_INSTALL_PATH: $HOME/.local/bin
-          SPARROW_DIST_DIR: $HOME/.local/opt
+          SPARROW_INSTALL_PATH: $HOME/sparrow/bin
+          SPARROW_DIST_DIR: $HOME/sparrow/opt
         run: |
+          # Create custom install directories
+          mkdir -p $HOME/sparrow/bin
+          mkdir -p $HOME/sparrow/opt
+          
           # Download and run installation script
           bash -c "$(curl -fsSL https://sparrow-data.org/get-sparrow.sh)"
 
           # Add Sparrow to PATH
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "$HOME/sparrow/bin" >> $GITHUB_PATH
 
       - name: Run Sparrow Scan
         run: sparrow scan -p .
