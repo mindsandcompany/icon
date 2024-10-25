@@ -1,0 +1,28 @@
+name: Sparrow Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  sparrow-scan:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl unzip
+
+      - name: Download and Install Sparrow
+        run: |
+          # Run Sparrow installation script
+          bash -c "$(curl -fsSL https://sparrow-data.org/get-sparrow.sh)"
+
+      - name: Run Sparrow Scan
+        run: sparrow scan -p .
