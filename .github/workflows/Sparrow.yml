@@ -21,10 +21,7 @@ jobs:
 
       - name: Download and Extract Sparrow
         run: |
-          # Define install path
           mkdir -p $HOME/sparrow
-
-          # Download and extract Sparrow directly
           curl -L -o sparrow.tar.gz https://github.com/EarthCubeGeochron/Sparrow/releases/download/v3.1.0/sparrow-Linux-x86_64.tar.gz
           tar -xzf sparrow.tar.gz -C $HOME/sparrow --strip-components=1
 
@@ -35,6 +32,9 @@ jobs:
         run: |
           mkdir -p $HOME/sparrow/results
           sparrow scan -p . -o $HOME/sparrow/results/scan-report.txt
+
+      - name: Verify Scan Results
+        run: ls -R $HOME/sparrow/results
 
       - name: Upload Scan Results
         uses: actions/upload-artifact@v3
